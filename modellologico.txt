@@ -1,0 +1,71 @@
+users(
+  _id_, 
+  name, 
+  email, 
+  email_verified_at, 
+  password, 
+  spotify_token, 
+  favorite_track_id, 
+  favorite_track_name, 
+  favorite_track_url, 
+  remember_token, 
+  created_at, 
+  updated_at
+)
+
+bands(
+  _id_, 
+  name, 
+  description, 
+  genre, 
+  owner_id*, 
+  created_at, 
+  updated_at
+)
+
+instruments(
+  _id_, 
+  name, 
+  created_at, 
+  updated_at
+)
+
+requests(
+  _id_, 
+  band_id*, 
+  instrument_id*, 
+  description, 
+  created_at, 
+  updated_at
+)
+
+request_applications(
+  _id_, 
+  user_id*, 
+  request_id*, 
+  status, 
+  created_at, 
+  updated_at
+)
+
+instrument_user(
+  _user_id_*, 
+  _instrument_id_*
+)
+
+band_user(
+  _id_, 
+  band_id*, 
+  user_id*, 
+  created_at, 
+  updated_at
+)
+
+sessions(
+  _id_, 
+  user_id*, 
+  ip_address, 
+  user_agent, 
+  payload, 
+  last_activity
+)
