@@ -19,7 +19,8 @@ class BandController extends Controller
 
     public function create()
     {
-        return view('bands.create');
+        $band = new \App\Models\Band();
+        return view('bands.create', compact('band'));
     }
 
     public function store(Request $request)
@@ -42,7 +43,7 @@ class BandController extends Controller
             return redirect()->route('bands.index')->with('success', 'Band created successfully!');
         } catch (QueryException $e) {
             if ($e->getCode() == 23000) {
-              
+
                 return redirect()->back()
                     ->withInput()
                     ->with('error', 'You already have a band with this name.');
@@ -105,25 +106,25 @@ class BandController extends Controller
         return view('bands.explore', compact('bands'));
     }
     public function apply(Request $request)
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    // Verifica se l'utente ha già fatto domanda
-    $alreadyApplied = RequestApplication::where('request_id', $request->id)
-        ->where('user_id', $user->id)
-        ->exists();
+        // Verifica se l'utente ha già fatto domanda
+        $alreadyApplied = RequestApplication::where('request_id', $request->id)
+            ->where('user_id', $user->id)
+            ->exists();
 
-    if ($alreadyApplied) {
-        return redirect()->back()->with('error', 'Hai già fatto domanda per questa richiesta.');
+        if ($alreadyApplied) {
+            return redirect()->back()->with('error', 'Hai già fatto domanda per questa richiesta.');
+        }
+
+        // Crea la candidatura
+        RequestApplication::create([
+            'request_id' => $request->id,
+            'user_id' => $user->id,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->back()->with('success', 'Candidatura inviata con successo!');
     }
-
-    // Crea la candidatura
-    RequestApplication::create([
-        'request_id' => $request->id,
-        'user_id' => $user->id,
-        'status' => 'pending',
-    ]);
-
-    return redirect()->back()->with('success', 'Candidatura inviata con successo!');
-}
 }

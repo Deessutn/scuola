@@ -17,10 +17,10 @@ class RequestController extends Controller
     }
 
     public function create(Band $band)
-    {
-        $instruments = Instrument::all();
-        return view('requests.create', compact('band', 'instruments'));
-    }
+{
+    $instruments = Instrument::all();
+    return view('requests.create', compact('band','instruments'));
+}
 
     public function store(Request $request, Band $band)
     {
